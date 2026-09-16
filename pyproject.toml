@@ -10,6 +10,9 @@ notebooklm = [
     "notebooklm-py==0.8.2",
 ]
 
+[project.scripts]
+research-corpus = "research_corpus.cli:main"
+
 [dependency-groups]
 dev = [
     "notebooklm-py==0.8.2",

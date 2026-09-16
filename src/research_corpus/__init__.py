@@ -6,6 +6,7 @@ from research_corpus.admission import (
     SourceCandidate,
     SourceIndex,
     admit,
+    admitted_source_from_index,
     reject,
 )
 from research_corpus.artifacts import (
@@ -78,6 +79,7 @@ __all__ = [
     "SourceRecord",
     "SourceTier",
     "admit",
+    "admitted_source_from_index",
     "decode_source_record",
     "from_json",
     "init_run",

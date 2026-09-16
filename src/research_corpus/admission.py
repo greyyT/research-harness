@@ -395,3 +395,33 @@ def reject(
     )
     index.write_record(record)
     return record
+
+
+def admitted_source_from_index(index: SourceIndex, source_id: str) -> AdmittedSource:
+    """Rehydrate an AdmittedSource handle for an admitted source record from the index."""
+    if not isinstance(index, SourceIndex):
+        raise TypeError(f"Expected SourceIndex, got {type(index)}")
+    if not isinstance(source_id, str):
+        raise TypeError(f"source_id must be a string, got {type(source_id)}")
+
+    record = index.get(source_id)
+    if record is None:
+        raise ValueError(f"Unknown source id: {source_id!r}")
+    if not record.admitted:
+        raise ValueError(f"Source {source_id!r} was rejected, cannot ingest")
+
+    return AdmittedSource(record, _guard=_CONSTRUCTOR_GUARD)
+
+
+__all__ = [
+    "TIER_MAP",
+    "AdmittedSource",
+    "SourceCandidate",
+    "SourceIndex",
+    "admit",
+    "admitted_source_from_index",
+    "derive_source_id",
+    "normalize_url",
+    "reject",
+    "slugify",
+]
