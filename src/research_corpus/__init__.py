@@ -7,6 +7,11 @@ from research_corpus.artifacts import (
     init_run,
     load_source_index,
 )
+from research_corpus.ledger import (
+    ClaimQuery,
+    Ledger,
+    LedgerCorruptError,
+)
 from research_corpus.records import (
     AdmissionDecision,
     ClaimRecord,
@@ -24,16 +29,19 @@ from research_corpus.records import (
 )
 
 __all__ = [
+    "RESEARCH_STATE_SKELETON",
+    "SYNTHETIC_SUMMARY_BANNER",
     "AdmissionDecision",
+    "ClaimQuery",
     "ClaimRecord",
     "ClaimStatus",
     "ClaimType",
     "Confidence",
     "ContradictionRecord",
     "EvidenceRef",
-    "RESEARCH_STATE_SKELETON",
+    "Ledger",
+    "LedgerCorruptError",
     "RunPaths",
-    "SYNTHETIC_SUMMARY_BANNER",
     "SourceKind",
     "SourceRecord",
     "SourceTier",

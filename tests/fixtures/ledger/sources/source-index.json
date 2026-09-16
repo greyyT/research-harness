@@ -1,0 +1,82 @@
+{
+  "sources": [
+    {
+      "id": "src-arxiv-2401-mem",
+      "kind": "paper",
+      "tier": "A",
+      "url": "https://arxiv.org/abs/2401.00001",
+      "path": null,
+      "title": "Hierarchical Memory Indexing in LLM Agents",
+      "admitted": true,
+      "reason": "Peer-reviewed primary paper with reproducibility artifacts",
+      "declared_by": "scout",
+      "decided_at": "2026-09-16T10:00:00Z",
+      "corpus_ref": {
+        "notebooklm": "nb-src-mem-01"
+      }
+    },
+    {
+      "id": "src-bench-memarena",
+      "kind": "official_benchmark",
+      "tier": "A",
+      "url": "https://memoryarena.ai/benchmark",
+      "path": null,
+      "title": "MemoryArena Benchmark Suite",
+      "admitted": true,
+      "reason": "Official standardized benchmark harness for agent memory evaluation",
+      "declared_by": "scout",
+      "decided_at": "2026-09-16T10:05:00Z",
+      "corpus_ref": {
+        "notebooklm": "nb-src-bench-02"
+      }
+    },
+    {
+      "id": "src-eng-rep-2024",
+      "kind": "engineering_report",
+      "tier": "B",
+      "url": "https://eng.example.com/mem-systems",
+      "path": null,
+      "title": "Production Agent Memory Systems at Scale",
+      "admitted": true,
+      "reason": "High-quality engineering report from production deployment",
+      "declared_by": "architecture-researcher",
+      "decided_at": "2026-09-16T10:10:00Z",
+      "corpus_ref": {
+        "notebooklm": "nb-src-eng-03"
+      }
+    },
+    {
+      "id": "src-blog-thoughts",
+      "kind": "blog_post",
+      "tier": "C",
+      "url": "https://blog.example.com/lossy-compression",
+      "path": null,
+      "title": "Lossy Context Compression for Autonomous Agents",
+      "admitted": true,
+      "reason": "Discovery and community post proposing dialogue context pruning",
+      "declared_by": "benchmark-researcher",
+      "decided_at": "2026-09-16T10:15:00Z",
+      "corpus_ref": {
+        "notebooklm": "nb-src-blog-04"
+      }
+    },
+    {
+      "id": "src-forum-reddit",
+      "kind": "reddit",
+      "tier": null,
+      "url": "https://reddit.com/r/localllama/comments/speculation",
+      "path": null,
+      "title": "Unverified Speculation on Graph Memory Bounds",
+      "admitted": false,
+      "reason": "Unsubstantiated anonymous forum speculation lacking benchmarks",
+      "declared_by": "scout",
+      "decided_at": "2026-09-16T10:20:00Z",
+      "corpus_ref": {}
+    }
+  ],
+  "corpus": {
+    "notebooklm": {
+      "notebook_id": "nb-seeded-fixture-001"
+    }
+  }
+}

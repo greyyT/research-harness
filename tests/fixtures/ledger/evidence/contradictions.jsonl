@@ -1,0 +1,1 @@
+{"claim_ids": ["claim-003", "claim-004"], "created_at": "2026-09-16T12:40:00Z", "description": "Graph memory recall scalability: claim-003 asserts >90% across all hops whereas claim-004 observes 41% on >4 hops.", "id": "contra-001", "status": "contradicted"}
