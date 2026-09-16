@@ -15,6 +15,16 @@ from research_corpus.artifacts import (
     init_run,
     load_source_index,
 )
+from research_corpus.corpus import (
+    Citation,
+    Corpus,
+    CorpusAnswer,
+    CorpusIngestError,
+    CorpusSourceRef,
+    CorpusStatus,
+    CorpusUnavailable,
+)
+from research_corpus.corpus.stub import LocalStubCorpus
 from research_corpus.index import LedgerIndex
 from research_corpus.ledger import (
     ClaimQuery,
@@ -43,16 +53,24 @@ __all__ = [
     "TIER_MAP",
     "AdmissionDecision",
     "AdmittedSource",
+    "Citation",
     "ClaimQuery",
     "ClaimRecord",
     "ClaimStatus",
     "ClaimType",
     "Confidence",
     "ContradictionRecord",
+    "Corpus",
+    "CorpusAnswer",
+    "CorpusIngestError",
+    "CorpusSourceRef",
+    "CorpusStatus",
+    "CorpusUnavailable",
     "EvidenceRef",
     "Ledger",
     "LedgerCorruptError",
     "LedgerIndex",
+    "LocalStubCorpus",
     "RunPaths",
     "SourceCandidate",
     "SourceIndex",
