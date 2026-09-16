@@ -1,0 +1,63 @@
+{
+  "sources": [
+    {
+      "admitted": true,
+      "corpus_ref": {
+        "stub": "memoryarena-hierarchical-memory-indexing-paper-13bcf41e"
+      },
+      "decided_at": "2026-09-16T16:50:41Z",
+      "declared_by": "researcher-alpha",
+      "id": "memoryarena-hierarchical-memory-indexing-paper-13bcf41e",
+      "kind": "paper",
+      "path": "tests/fixtures/sources/tier-a-paper.txt",
+      "reason": "Peer-reviewed benchmark paper on agent memory indexing",
+      "tier": "A",
+      "title": "MemoryArena Hierarchical Memory Indexing Paper",
+      "url": null
+    },
+    {
+      "admitted": true,
+      "corpus_ref": {
+        "stub": "production-infrastructure-memory-evaluation-177cd5f9"
+      },
+      "decided_at": "2026-09-16T16:50:41Z",
+      "declared_by": "researcher-beta",
+      "id": "production-infrastructure-memory-evaluation-177cd5f9",
+      "kind": "engineering_report",
+      "path": "tests/fixtures/sources/tier-b-report.txt",
+      "reason": "Engineering report evaluating memory indexing at scale",
+      "tier": "B",
+      "title": "Production Infrastructure Memory Evaluation",
+      "url": null
+    },
+    {
+      "admitted": true,
+      "corpus_ref": {
+        "stub": "notes-on-hierarchical-agent-memory-failure-80953bee"
+      },
+      "decided_at": "2026-09-16T16:50:41Z",
+      "declared_by": "researcher-gamma",
+      "id": "notes-on-hierarchical-agent-memory-failure-80953bee",
+      "kind": "blog_post",
+      "path": "tests/fixtures/sources/tier-c-blog.txt",
+      "reason": "Blog post reporting failure to reproduce latency reduction",
+      "tier": "C",
+      "title": "Notes on Hierarchical Agent Memory Failure",
+      "url": null
+    },
+    {
+      "admitted": false,
+      "corpus_ref": {},
+      "decided_at": "2026-09-16T16:50:41Z",
+      "declared_by": "scout",
+      "id": "forum-example-com-d153da02",
+      "kind": "informal_explanation",
+      "path": null,
+      "reason": "Unverified anonymous forum rumor with no reproducible data",
+      "tier": null,
+      "title": "",
+      "url": "https://forum.example.com/threads/unverified-agent-memory-rumors"
+    }
+  ],
+  "corpus": {}
+}

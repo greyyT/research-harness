@@ -1,0 +1,5 @@
+MemoryArena: Benchmarking Hierarchical Memory Indexing in Long-Horizon Autonomous Agents.
+Abstract: In this work, we evaluate structured memory architectures across complex multi-step reasoning benchmarks.
+Experimental results demonstrate that hierarchical memory indexing reduces agent retrieval latency by 40 percent on the MemoryArena benchmark.
+Furthermore, hierarchical clustering preserves multi-hop associative recall across thousand-step execution traces without precision degradation.
+Analysis confirms that organizing episodic traces into tiered index structures avoids full-context quadratic attention costs.

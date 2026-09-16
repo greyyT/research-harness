@@ -1,0 +1,5 @@
+Notes from the Trenches: Why Hierarchical Agent Memory Failed in Our Tests.
+Contrary to recent benchmarks, our internal evaluation showed that hierarchical memory indexing failed to reduce retrieval latency in agent workflows.
+In fact, tree traversal overhead caused retrieval latency to increase by 15 percent compared to simple flat vector search.
+The added complexity of index re-ranking outweighed any cache locality benefits in our long-horizon tests.
+Teams should exercise caution before adopting hierarchical memory architectures based purely on synthetic benchmark claims.
