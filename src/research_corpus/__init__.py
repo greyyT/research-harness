@@ -7,6 +7,7 @@ from research_corpus.artifacts import (
     init_run,
     load_source_index,
 )
+from research_corpus.index import LedgerIndex
 from research_corpus.ledger import (
     ClaimQuery,
     Ledger,
@@ -41,6 +42,7 @@ __all__ = [
     "EvidenceRef",
     "Ledger",
     "LedgerCorruptError",
+    "LedgerIndex",
     "RunPaths",
     "SourceKind",
     "SourceRecord",

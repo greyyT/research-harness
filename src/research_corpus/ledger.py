@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
+import sqlite3
 
 from research_corpus.artifacts import RunPaths, load_source_index
 from research_corpus.records import (
@@ -25,6 +26,74 @@ class LedgerCorruptError(Exception):
         self.line_number = line_number
         self.message = message
         super().__init__(f"Corrupt record in {self.path} at line {line_number}: {message}")
+
+
+def _read_claims_file(path: Path) -> list[tuple[ClaimRecord, str]]:
+    """Read and validate claims from a JSONL file, returning (record, raw_json_line) pairs."""
+    if not path.exists():
+        return []
+    claims: list[tuple[ClaimRecord, str]] = []
+    seen_ids: set[str] = set()
+    with open(path, mode="r", encoding="utf-8") as f:
+        for line_no, raw_line in enumerate(f, start=1):
+            line = raw_line.rstrip("\r\n")
+            if not line:
+                raise LedgerCorruptError(
+                    path=path,
+                    line_number=line_no,
+                    message="Empty line in JSONL file",
+                )
+            try:
+                record = from_json(ClaimRecord, line)
+            except Exception as exc:
+                raise LedgerCorruptError(
+                    path=path,
+                    line_number=line_no,
+                    message=str(exc),
+                ) from exc
+            if record.id in seen_ids:
+                raise LedgerCorruptError(
+                    path=path,
+                    line_number=line_no,
+                    message=f"Duplicate claim id: {record.id!r}",
+                )
+            seen_ids.add(record.id)
+            claims.append((record, line))
+    return claims
+
+
+def _read_contradictions_file(path: Path) -> list[tuple[ContradictionRecord, str]]:
+    """Read and validate contradictions from a JSONL file, returning (record, raw_json_line) pairs."""
+    if not path.exists():
+        return []
+    contradictions: list[tuple[ContradictionRecord, str]] = []
+    seen_ids: set[str] = set()
+    with open(path, mode="r", encoding="utf-8") as f:
+        for line_no, raw_line in enumerate(f, start=1):
+            line = raw_line.rstrip("\r\n")
+            if not line:
+                raise LedgerCorruptError(
+                    path=path,
+                    line_number=line_no,
+                    message="Empty line in JSONL file",
+                )
+            try:
+                record = from_json(ContradictionRecord, line)
+            except Exception as exc:
+                raise LedgerCorruptError(
+                    path=path,
+                    line_number=line_no,
+                    message=str(exc),
+                ) from exc
+            if record.id in seen_ids:
+                raise LedgerCorruptError(
+                    path=path,
+                    line_number=line_no,
+                    message=f"Duplicate contradiction id: {record.id!r}",
+                )
+            seen_ids.add(record.id)
+            contradictions.append((record, line))
+    return contradictions
 
 
 @dataclass(frozen=True)
@@ -71,70 +140,15 @@ class Ledger:
         if not isinstance(paths, RunPaths):
             raise TypeError(f"Expected RunPaths, got {type(paths)}")
         self.paths = paths
+        from research_corpus.index import LedgerIndex
+
+        self.index = LedgerIndex(paths)
 
     def _load_claims(self) -> list[ClaimRecord]:
-        if not self.paths.claims.exists():
-            return []
-        claims: list[ClaimRecord] = []
-        seen_ids: set[str] = set()
-        with open(self.paths.claims, mode="r", encoding="utf-8") as f:
-            for line_no, raw_line in enumerate(f, start=1):
-                line = raw_line.rstrip("\r\n")
-                if not line:
-                    raise LedgerCorruptError(
-                        path=self.paths.claims,
-                        line_number=line_no,
-                        message="Empty line in JSONL file",
-                    )
-                try:
-                    record = from_json(ClaimRecord, line)
-                except Exception as exc:
-                    raise LedgerCorruptError(
-                        path=self.paths.claims,
-                        line_number=line_no,
-                        message=str(exc),
-                    ) from exc
-                if record.id in seen_ids:
-                    raise LedgerCorruptError(
-                        path=self.paths.claims,
-                        line_number=line_no,
-                        message=f"Duplicate claim id: {record.id!r}",
-                    )
-                seen_ids.add(record.id)
-                claims.append(record)
-        return claims
+        return [r for r, _ in _read_claims_file(self.paths.claims)]
 
     def _load_contradictions(self) -> list[ContradictionRecord]:
-        if not self.paths.contradictions.exists():
-            return []
-        contradictions: list[ContradictionRecord] = []
-        seen_ids: set[str] = set()
-        with open(self.paths.contradictions, mode="r", encoding="utf-8") as f:
-            for line_no, raw_line in enumerate(f, start=1):
-                line = raw_line.rstrip("\r\n")
-                if not line:
-                    raise LedgerCorruptError(
-                        path=self.paths.contradictions,
-                        line_number=line_no,
-                        message="Empty line in JSONL file",
-                    )
-                try:
-                    record = from_json(ContradictionRecord, line)
-                except Exception as exc:
-                    raise LedgerCorruptError(
-                        path=self.paths.contradictions,
-                        line_number=line_no,
-                        message=str(exc),
-                    ) from exc
-                if record.id in seen_ids:
-                    raise LedgerCorruptError(
-                        path=self.paths.contradictions,
-                        line_number=line_no,
-                        message=f"Duplicate contradiction id: {record.id!r}",
-                    )
-                seen_ids.add(record.id)
-                contradictions.append(record)
-        return contradictions
+        return [r for r, _ in _read_contradictions_file(self.paths.contradictions)]
 
     def iter_claims(self) -> Iterator[ClaimRecord]:
         """Iterate over all claims in claims.jsonl."""
@@ -229,6 +243,8 @@ class Ledger:
 
     def scan(self, query: ClaimQuery | None = None) -> list[ClaimRecord]:
         """Pure JSONL query engine matching all set filter dimensions with AND."""
+        if query is not None and not isinstance(query, ClaimQuery):
+            raise TypeError(f"Expected ClaimQuery, got {type(query)}")
         claims = self._load_claims()
         if query is None:
             return sorted(claims, key=lambda c: c.id)
@@ -296,8 +312,13 @@ class Ledger:
         return sorted(matched, key=lambda c: c.id)
 
     def query(self, query: ClaimQuery | None = None) -> list[ClaimRecord]:
-        """Query the ledger. In S2, delegates to the pure scan engine."""
-        return self.scan(query)
+        """Query claims using the SQLite index when available, falling back to pure scan if SQLite fails."""
+        if query is not None and not isinstance(query, ClaimQuery):
+            raise TypeError(f"Expected ClaimQuery, got {type(query)}")
+        try:
+            return self.index.query(query)
+        except (sqlite3.Error, OSError):
+            return self.scan(query)
 
 
 __all__ = [
