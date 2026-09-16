@@ -1,0 +1,19 @@
+# Python virtual environments
+.venv/
+venv/
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Derived SQLite index and sidecars (disposable, rebuildable from JSONL)
+research/**/evidence/index.sqlite*

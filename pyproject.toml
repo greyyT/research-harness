@@ -1,0 +1,28 @@
+[project]
+name = "research-corpus"
+version = "0.1.0"
+description = "Research Harness corpus and evidence layer"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+notebooklm = [
+    "notebooklm-py==0.8.2",
+]
+
+[dependency-groups]
+dev = [
+    "notebooklm-py==0.8.2",
+    "pytest>=8.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/research_corpus"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
