@@ -1,5 +1,13 @@
 """Research Corpus package - persistence, schemas, and artifact tree."""
 
+from research_corpus.admission import (
+    TIER_MAP,
+    AdmittedSource,
+    SourceCandidate,
+    SourceIndex,
+    admit,
+    reject,
+)
 from research_corpus.artifacts import (
     RESEARCH_STATE_SKELETON,
     SYNTHETIC_SUMMARY_BANNER,
@@ -32,7 +40,9 @@ from research_corpus.records import (
 __all__ = [
     "RESEARCH_STATE_SKELETON",
     "SYNTHETIC_SUMMARY_BANNER",
+    "TIER_MAP",
     "AdmissionDecision",
+    "AdmittedSource",
     "ClaimQuery",
     "ClaimRecord",
     "ClaimStatus",
@@ -44,12 +54,16 @@ __all__ = [
     "LedgerCorruptError",
     "LedgerIndex",
     "RunPaths",
+    "SourceCandidate",
+    "SourceIndex",
     "SourceKind",
     "SourceRecord",
     "SourceTier",
+    "admit",
     "decode_source_record",
     "from_json",
     "init_run",
     "load_source_index",
+    "reject",
     "to_json",
 ]
